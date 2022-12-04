@@ -1,4 +1,5 @@
 ﻿using BoardSystem;
+using HexenSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,12 @@ namespace GameSystem.Views
     public class PositionEventArgs : EventArgs
     {
         public Position Position { get; }
+        public CardTypes Type { get; }
 
-        public PositionEventArgs(Position position)
+        public PositionEventArgs(Position position, CardTypes type)
         {
             Position = position;
+            Type = type;
         }
     }
 
@@ -58,9 +61,9 @@ namespace GameSystem.Views
             handler.Invoke(this, e);
         }
 
-        internal void ChildClicked(PositionView positionView)
+        internal void ChildClicked(PositionView positionView, CardTypes type)
         {
-            OnPositionClicked(new PositionEventArgs(positionView.GridPosition));
+            OnPositionClicked(new PositionEventArgs(positionView.GridPosition, type));
         }
 
         public void SetActivePosition(List<Position> activePositions)

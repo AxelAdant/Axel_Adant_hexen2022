@@ -1,9 +1,8 @@
 {
-    "name": "GameSystem",
+    "name": "HexenSystem",
     "rootNamespace": "",
     "references": [
-        "GUID:026577f0b6b2aa14989f613bed65b936",
-        "GUID:5b2f76d32a78bb64dabf76e30c1d6711"
+        "GUID:026577f0b6b2aa14989f613bed65b936"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

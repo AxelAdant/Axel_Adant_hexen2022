@@ -7,6 +7,8 @@ namespace GameSystem.Helpers
 {
     public static class PositionHelper
     {
+        public const int _boardRadius = 3;
+
         public const float TileHeight = 1f;
         public const float TileWidth = 0.75f;
 
@@ -23,7 +25,7 @@ namespace GameSystem.Helpers
         {
             float x = gridPosition.Q * TileWidth;
 
-            float z = (-(TileHeight / 2) / TileWidth) * x + gridPosition.R;
+            float z = (-(TileHeight / 2) / TileWidth) * x - gridPosition.R;
 
             float yPositionDefault = 0f;
 

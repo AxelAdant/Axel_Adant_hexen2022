@@ -1,5 +1,6 @@
 using BoardSystem;
 using GameSystem.Helpers;
+using HexenSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace GameSystem.Views
     [Serializable]
     public class ActivationChangeUnityEvent : UnityEvent<bool> { }
 
-    public class PositionView : MonoBehaviour, IPointerClickHandler
+    public class PositionView : MonoBehaviour, IHex
     {
         [SerializeField]
         private UnityEvent OnActivate;
@@ -25,16 +26,19 @@ namespace GameSystem.Views
 
         public Position GridPosition => PositionHelper.GridPosition(transform.position);
 
+        public CardTypes UsedCardHere
+        {
+            set
+            {
+                _parent.ChildClicked(this, value);
+            }
+        }
+
         private BoardView _parent;
 
         private void Start()
         {
             _parent = GetComponentInParent<BoardView>();
-        }
-
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            _parent.ChildClicked(this);
         }
 
         internal void Deactivate()
