@@ -12,12 +12,13 @@ namespace GameSystem.Views
     public class PositionEventArgs : EventArgs
     {
         public Position Position { get; }
-        public CardTypes Type { get; }
 
-        public PositionEventArgs(Position position, CardTypes type)
+        public CardTypes CardType { get; }
+
+        public PositionEventArgs(Position position, CardTypes cardType)
         {
             Position = position;
-            Type = type;
+            CardType = cardType;
         }
     }
 
@@ -42,7 +43,9 @@ namespace GameSystem.Views
             }
         }
 
-        public event EventHandler<PositionEventArgs> PositionClicked;
+        public event EventHandler<PositionEventArgs> PositionEndHovered;
+        public event EventHandler<PositionEventArgs> PositionHovered;
+        public event EventHandler<PositionEventArgs> PositionEndedDrag;
 
         private Dictionary<Position, PositionView> _positionViews = new Dictionary<Position, PositionView>();
 
@@ -55,16 +58,49 @@ namespace GameSystem.Views
             }
         }
 
-        protected virtual void OnPositionClicked(PositionEventArgs e)
+        internal void ChildHovered(PositionView positionView, CardTypes cardType)
         {
-            var handler = PositionClicked;
+            OnPositionHovered(new PositionEventArgs(positionView.GridPosition, cardType));
+        }
+
+        protected virtual void OnPositionHovered(PositionEventArgs e)
+        {
+            var handler = PositionHovered;
             handler.Invoke(this, e);
         }
 
-        internal void ChildClicked(PositionView positionView, CardTypes type)
+        internal void ChildEndHovered(PositionView positionView, CardTypes cardType)
         {
-            OnPositionClicked(new PositionEventArgs(positionView.GridPosition, type));
+            OnPositionEndHovered(new PositionEventArgs(positionView.GridPosition, cardType));
         }
+
+        private void OnPositionEndHovered(PositionEventArgs e)
+        {
+            var handler = PositionEndHovered;
+            handler.Invoke(this, e);
+        }
+
+        internal void ChildDrop(PositionView positionView, CardTypes cardType)
+        {
+            OnPositionDrop(new PositionEventArgs(positionView.GridPosition, cardType));
+        }
+
+        private void OnPositionDrop(PositionEventArgs e)
+        {
+            var handler = PositionEndedDrag;
+            handler.Invoke(this, e);
+        }
+
+        //protected virtual void OnPositionClicked(PositionEventArgs e)
+        //{
+        //    var handler = PositionClicked;
+        //    handler.Invoke(this, e);
+        //}
+
+        //internal void ChildClicked(PositionView positionView)
+        //{
+        //    OnPositionClicked(new PositionEventArgs(positionView.GridPosition));
+        //}
 
         public void SetActivePosition(List<Position> activePositions)
         {

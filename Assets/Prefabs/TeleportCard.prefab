@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2944703628577657831}
   - component: {fileID: 2944703628577657826}
   - component: {fileID: 2944703628577657829}
-  - component: {fileID: 2944703628577657828}
+  - component: {fileID: 3147617008371489924}
   m_Layer: 5
   m_Name: TeleportCard
   m_TagString: Untagged
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2944703628577657828
+--- !u!114 &3147617008371489924
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,9 +86,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2944703628577657830}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77a8a6e01922d644695aa790c8e5e93d, type: 3}
+  m_Script: {fileID: 11500000, guid: f3b2f31c4c45e1e4296f22a79e1d5137, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hexLayer:
-    serializedVersion: 2
-    m_Bits: 64

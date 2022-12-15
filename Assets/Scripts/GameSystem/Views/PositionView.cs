@@ -13,7 +13,7 @@ namespace GameSystem.Views
     [Serializable]
     public class ActivationChangeUnityEvent : UnityEvent<bool> { }
 
-    public class PositionView : MonoBehaviour, IHex
+    public class PositionView : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IDropHandler
     {
         [SerializeField]
         private UnityEvent OnActivate;
@@ -25,14 +25,6 @@ namespace GameSystem.Views
         private ActivationChangeUnityEvent onActivationChange;
 
         public Position GridPosition => PositionHelper.GridPosition(transform.position);
-
-        public CardTypes UsedCardHere
-        {
-            set
-            {
-                _parent.ChildClicked(this, value);
-            }
-        }
 
         private BoardView _parent;
 
@@ -51,6 +43,33 @@ namespace GameSystem.Views
         {
             OnActivate?.Invoke();
             onActivationChange?.Invoke(true);
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (eventData.dragging)
+            {
+                CardTypes cardType = eventData.pointerDrag.GetComponent<CardView>().Type;
+
+                _parent.ChildHovered(this, cardType);
+            }
+        }
+
+        public void OnDrop(PointerEventData eventData)
+        {
+            CardTypes cardType = eventData.pointerDrag.GetComponent<CardView>().Type;
+
+            _parent.ChildDrop(this, cardType);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if (eventData.dragging)
+            {
+                CardTypes cardType = eventData.pointerDrag.GetComponent<CardView>().Type;
+
+                _parent.ChildEndHovered(this, cardType);
+            }
         }
     }
 }
