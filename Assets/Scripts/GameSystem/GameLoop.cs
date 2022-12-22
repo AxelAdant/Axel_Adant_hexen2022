@@ -32,17 +32,19 @@ namespace GameSystem
 
             PieceView[] pieceViews = FindObjectsOfType<PieceView>();
             foreach (PieceView pieceView in pieceViews)
-                _board.Place(new Position(0, 0), pieceView);
+                _board.Place(PositionHelper.GridPosition(pieceView.transform.position), pieceView);
         }
 
         private void OnPositionEndedDrag(object sender, PositionEventArgs e)
         {
-            Debug.Log($"dropped a {e.CardType} card here : {e.Position}");
+            e.Card.Execute(_board.PlayerPosition, e.Position, _board);
+
+            _boardView.ActivePosition = null;
         }
 
         private void OnPositionHovered(object sender, PositionEventArgs e)
         {
-            _boardView.ActivePosition = _engine.CardMoves.For(e.CardType).Positions(_engine.PlayerPosition, e.Position);
+            _boardView.ActivePosition = e.Card.ValidPositions(_board.PlayerPosition, e.Position, _board);
         }
 
         private void OnPositionHoverEnded(object sender, PositionEventArgs e)

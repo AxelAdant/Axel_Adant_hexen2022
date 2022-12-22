@@ -49,26 +49,32 @@ namespace GameSystem.Views
         {
             if (eventData.dragging)
             {
-                CardTypes cardType = eventData.pointerDrag.GetComponent<CardView>().Type;
+                CardView cardView = eventData.pointerDrag.GetComponent<CardView>();
+                CardTypes cardType = cardView.Type;
+                Card card = cardView.Card;
 
-                _parent.ChildHovered(this, cardType);
+                _parent.ChildHovered(this, card, cardType);
             }
         }
 
         public void OnDrop(PointerEventData eventData)
         {
-            CardTypes cardType = eventData.pointerDrag.GetComponent<CardView>().Type;
+            CardView cardView = eventData.pointerDrag.GetComponent<CardView>();
+            CardTypes cardType = cardView.Type;
+            Card card = cardView.Card;
 
-            _parent.ChildDrop(this, cardType);
+            _parent.ChildDrop(this, card, cardType);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             if (eventData.dragging)
             {
-                CardTypes cardType = eventData.pointerDrag.GetComponent<CardView>().Type;
+                CardView cardView = eventData.pointerDrag.GetComponent<CardView>();
+                CardTypes cardType = cardView.Type;
+                Card card = cardView.Card;
 
-                _parent.ChildEndHovered(this, cardType);
+                _parent.ChildEndHovered(this, card, cardType);
             }
         }
     }

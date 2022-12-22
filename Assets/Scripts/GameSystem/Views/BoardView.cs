@@ -11,13 +11,16 @@ namespace GameSystem.Views
 {
     public class PositionEventArgs : EventArgs
     {
+        public Card Card { get; }
+
         public Position Position { get; }
 
         public CardTypes CardType { get; }
 
-        public PositionEventArgs(Position position, CardTypes cardType)
+        public PositionEventArgs(Position position, Card card, CardTypes cardType)
         {
             Position = position;
+            Card = card;
             CardType = cardType;
         }
     }
@@ -38,7 +41,7 @@ namespace GameSystem.Views
                 else
                     _activePositions = value;
 
-                foreach (var position in value)
+                foreach (var position in _activePositions)
                     _positionViews[position].Activate();
             }
         }
@@ -58,9 +61,9 @@ namespace GameSystem.Views
             }
         }
 
-        internal void ChildHovered(PositionView positionView, CardTypes cardType)
+        internal void ChildHovered(PositionView positionView, Card card, CardTypes cardType)
         {
-            OnPositionHovered(new PositionEventArgs(positionView.GridPosition, cardType));
+            OnPositionHovered(new PositionEventArgs(positionView.GridPosition, card, cardType));
         }
 
         protected virtual void OnPositionHovered(PositionEventArgs e)
@@ -69,9 +72,9 @@ namespace GameSystem.Views
             handler.Invoke(this, e);
         }
 
-        internal void ChildEndHovered(PositionView positionView, CardTypes cardType)
+        internal void ChildEndHovered(PositionView positionView, Card card, CardTypes cardType)
         {
-            OnPositionEndHovered(new PositionEventArgs(positionView.GridPosition, cardType));
+            OnPositionEndHovered(new PositionEventArgs(positionView.GridPosition, card, cardType));
         }
 
         private void OnPositionEndHovered(PositionEventArgs e)
@@ -80,9 +83,9 @@ namespace GameSystem.Views
             handler.Invoke(this, e);
         }
 
-        internal void ChildDrop(PositionView positionView, CardTypes cardType)
+        internal void ChildDrop(PositionView positionView, Card card, CardTypes cardType)
         {
-            OnPositionDrop(new PositionEventArgs(positionView.GridPosition, cardType));
+            OnPositionDrop(new PositionEventArgs(positionView.GridPosition, card, cardType));
         }
 
         private void OnPositionDrop(PositionEventArgs e)

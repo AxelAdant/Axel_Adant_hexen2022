@@ -52,7 +52,17 @@ namespace BoardSystem
 
         private Dictionary<Position, TPiece> _pieces = new Dictionary<Position, TPiece>();
 
+        private Position _playerPosition = new Position(0, 0);
+
         private readonly int _boardRadius;
+
+        public Position PlayerPosition 
+        {
+            get
+            {
+                return _playerPosition;
+            }
+        }
 
         public Board(int boardRadius)
         {
@@ -88,7 +98,7 @@ namespace BoardSystem
             return true;
         }
 
-        public bool Move(Position fromPosition, Position toPosition)
+        public bool Move(Position fromPosition, Position toPosition, bool isPlayer)
         {
             if (!IsValid(toPosition))
                 return false;
@@ -101,6 +111,9 @@ namespace BoardSystem
 
             _pieces.Remove(fromPosition);
             _pieces[toPosition] = piece;
+
+            if (isPlayer)
+                _playerPosition = toPosition;
 
             OnPieceMoved(new PieceMovedEventArgs<TPiece>(piece, fromPosition, toPosition));
 

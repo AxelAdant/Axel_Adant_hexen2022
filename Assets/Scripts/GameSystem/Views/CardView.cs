@@ -1,4 +1,5 @@
-﻿using HexenSystem;
+﻿using BoardSystem;
+using HexenSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,30 +13,36 @@ namespace GameSystem.Views
 {
     class CardView : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        private readonly CardTypes _type = CardTypes.Slash;
+        private Card _card;
+        public Card Card => _card;
+
+        private readonly CardTypes _type;
         public CardTypes Type
         {
-            get
-            {
+            get                                            // type doesn't need to be passed in the positionview (and boardview and
+            {                                              // gameloop) anymore. Use it only to determine what card type to put in "_card"
                 return _type;
-            }
+            }                                              
+            
         }
 
         private Vector3 _initialPosition;
-
-        //public CardView(CardTypes type)
-        //{
-        //    _type = type;
-        //}
+        private Board<PieceView> _board;
 
         private void OnEnable()
         {
             _initialPosition = transform.position;
+
+            _card = new PushCard();
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
             transform.position = _initialPosition;
+
+            Image draggedCardImage = GetComponent<Image>();
+
+            draggedCardImage.raycastTarget = true;
         }
 
         public void OnDrag(PointerEventData eventData)
